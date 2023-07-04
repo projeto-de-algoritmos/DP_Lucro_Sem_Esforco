@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+tickers_file = os.getenv("TICKERS_FILE")
 api_key = os.getenv("POLYGON_API_KEY")
 
 base_url = "https://api.polygon.io"
@@ -16,9 +17,9 @@ daily_open_close_endpoint = (
 )
 
 
-def get_tickers(cursor: str = None):
+def get_tickers(cursor: str = None, market: str = None):
     url = base_url + tickers_endpoint
-    f_name = "sample_reqs/polygon-tickers.json"
+    f_name = tickers_file
     print("requesting " + url)
     res_json = None
     last_res_json = None
@@ -35,6 +36,8 @@ def get_tickers(cursor: str = None):
         print(f"make req to {url}")
 
         params = {"apiKey": api_key, "active": "true"}
+        if market is not None:
+            params["market"] = market
         if cursor is not None:
             params["cursor"] = cursor
         res = requests.get(base_url + tickers_endpoint, params=params)
@@ -45,6 +48,9 @@ def get_tickers(cursor: str = None):
             return None, None
 
     res_json["last_cursor"] = cursor
+    print("============ RES JSON ==============")
+    print(res_json)
+
     if (
         file_exists(f_name)
         and last_res_json is not None
@@ -56,9 +62,7 @@ def get_tickers(cursor: str = None):
                 res_json["results"].append(ticker)
                 res_json["count"] += 1
 
-    write_file(
-        "sample_reqs/polygon-tickers.json", json.dumps(res_json, indent=4), clear=True
-    )
+    write_file(tickers_file, json.dumps(res_json, indent=4), clear=True)
 
     cursor = None
     if res_json.get("next_url") is not None:
@@ -114,13 +118,15 @@ from time import sleep
 
 def main():
     cursor = None
-    if file_exists("sample_reqs/polygon-tickers.json"):
-        read = read_json("sample_reqs/polygon-tickers.json")
-        cursor = read["next_url"].split("cursor=")[1]
+    if file_exists(tickers_file):
+        read = read_json(tickers_file)
+        if read.get("next_url"):
+            cursor = read["next_url"].split("cursor=")[1]
     while True:
+        analyse()
         sleep(0.4)
         print("cursor = ", cursor)
-        ticker_req, new_cursor = get_tickers(cursor)
+        ticker_req, new_cursor = get_tickers(cursor, market="crypto")
         print("new_cursor = ", new_cursor)
         cursor = new_cursor
         if ticker_req is None:
@@ -131,4 +137,15 @@ def main():
         # print(f"got results for {len(res)} tickers")
 
 
-main()
+def analyse():
+    f = read_json(tickers_file)
+    ls = {}
+    for ticker in f["results"]:
+        if ticker["currency_name"] not in ls:
+            ls[ticker["currency_name"]] = 0
+        ls[ticker["currency_name"]] += 1
+    print("currencies:", ls)
+
+
+analyse()
+# main()
