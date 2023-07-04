@@ -1,0 +1,13 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "AAGH",
+    "open": 0.008,
+    "high": 0.008,
+    "low": 0.008,
+    "close": 0.008,
+    "volume": 60000,
+    "afterHours": 0.008,
+    "preMarket": 0.008,
+    "otc": true
+}

@@ -1,0 +1,13 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "AAGC",
+    "open": 0.0002,
+    "high": 0.0003,
+    "low": 0.0002,
+    "close": 0.0002,
+    "volume": 1350400.0,
+    "afterHours": 0.0002,
+    "preMarket": 0.0002,
+    "otc": true
+}

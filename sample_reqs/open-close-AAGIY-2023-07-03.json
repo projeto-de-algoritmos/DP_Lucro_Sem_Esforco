@@ -1,0 +1,13 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "AAGIY",
+    "open": 41.15,
+    "high": 41.95,
+    "low": 41.15,
+    "close": 41.22,
+    "volume": 279344,
+    "afterHours": 41.22,
+    "preMarket": 41.15,
+    "otc": true
+}

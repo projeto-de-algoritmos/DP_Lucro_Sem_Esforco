@@ -63,6 +63,12 @@ Processo dados:
 **Linguagem**: Python<br>
 **Framework**: <br>
 
+O app original usa uma API key do:
+- https://polygon.io/dashboard
+
+
+Sem essas chaves, não dá pra puxar dados, mas eles já são carregados por padrão ao executar o app.
+
 ## Uso 
 
 

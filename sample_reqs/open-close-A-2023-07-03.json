@@ -1,0 +1,12 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "A",
+    "open": 120.02,
+    "high": 120.85,
+    "low": 119.22,
+    "close": 119.32,
+    "volume": 996224,
+    "afterHours": 119.32,
+    "preMarket": 120.37
+}

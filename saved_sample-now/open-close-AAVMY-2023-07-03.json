@@ -1,0 +1,13 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "AAVMY",
+    "open": 15.76,
+    "high": 15.87,
+    "low": 15.75,
+    "close": 15.87,
+    "volume": 3089,
+    "afterHours": 15.87,
+    "preMarket": 15.76,
+    "otc": true
+}

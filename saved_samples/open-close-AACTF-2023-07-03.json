@@ -1,0 +1,13 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "AACTF",
+    "open": 0.0278,
+    "high": 0.0278,
+    "low": 0.0278,
+    "close": 0.0278,
+    "volume": 1000,
+    "afterHours": 0.0278,
+    "preMarket": 0.0278,
+    "otc": true
+}

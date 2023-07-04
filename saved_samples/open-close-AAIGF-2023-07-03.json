@@ -1,0 +1,13 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "AAIGF",
+    "open": 10.32,
+    "high": 10.48,
+    "low": 10.12,
+    "close": 10.29,
+    "volume": 39062,
+    "afterHours": 10.29,
+    "preMarket": 10.32,
+    "otc": true
+}

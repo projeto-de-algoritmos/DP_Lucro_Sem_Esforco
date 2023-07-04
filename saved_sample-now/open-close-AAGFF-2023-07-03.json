@@ -1,0 +1,13 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "AAGFF",
+    "open": 0.17457,
+    "high": 0.1829,
+    "low": 0.171,
+    "close": 0.1824,
+    "volume": 1859,
+    "afterHours": 0.1824,
+    "preMarket": 0.17457,
+    "otc": true
+}

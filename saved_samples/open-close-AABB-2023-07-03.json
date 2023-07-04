@@ -1,0 +1,13 @@
+{
+    "status": "OK",
+    "from": "2023-07-03",
+    "symbol": "AABB",
+    "open": 0.0305,
+    "high": 0.032,
+    "low": 0.0285,
+    "close": 0.03,
+    "volume": 5210088.0,
+    "afterHours": 0.03,
+    "preMarket": 0.0305,
+    "otc": true
+}
