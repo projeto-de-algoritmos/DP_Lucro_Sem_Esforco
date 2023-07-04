@@ -1,5 +1,5 @@
 import requests
-from src.util import write_file, file_exists, read_json, delete_file
+from util import write_file, file_exists, read_json, delete_file
 import json
 import subprocess
 import os
@@ -141,9 +141,9 @@ def analyse():
     f = read_json(tickers_file)
     ls = {}
     for ticker in f["results"]:
-        if ticker["currency_name"] not in ls:
-            ls[ticker["currency_name"]] = 0
-        ls[ticker["currency_name"]] += 1
+        if ticker["currency_symbol"] not in ls:
+            ls[ticker["currency_symbol"]] = 0
+        ls[ticker["currency_symbol"]] += 1
     print("currencies:", ls)
 
 
