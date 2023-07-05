@@ -55,20 +55,17 @@ Assumimos que:
   - Mas vamos pegar também a taxa de variação média deste ativo para fatorar o risco de se comprar-lo. Quanto mais volátil, mais perigoso. 
 - Um ativo que foi detectado uma vez será detectado de novo, ou seja, se vimos petróleo no ciclo, então é de se assumir que será possível encontrar petróleo de novo.
 
-Onde estaria o lucro então?
-- Note como o estado atual do mercado pode fazer com que algum ativo esteja mal precificado se comparado a outro ativo.
-- Se ativo A está barato demais que ativo B se tentasse comprar com uma cadeia de compras `A -> X -> Y -> ... -> Z -> B`, compraríamos ativo B por um preço mais baixo do que custa (será consertado).
-  
 Se aplicarmos uma `detecção de ciclos negativos`, podemos encontrar um exemplo disso.
 
 ### Solução
 
 Suponha que G é um grafo onde cada ativo do mercado é um nó, e cada aresta direcional é o preço de uma transação entre 2 ativos.
 
-Imaginemos uma árvore V a partir de um grafo G, onde cada aresta de V representa a quantidades de 'A' que seria possível conver
+Imaginemos uma árvore V a partir de um grafo G, onde cada aresta de V representa a quantidades de 'A' que seria possível ser convertida a partir de 1 unidade do ativo atual (claramente, o nó do ativo A resultaria em 1 unidade do próprio A).
 
 Para fica claro, o grafo G no exemplo mostrado acima seria:
 
+```
 Nós: 
 - A
 - B
@@ -81,8 +78,52 @@ Arestas:
 - B - A: 0.5
 - C - A: 0.3333
 - C - B: 0.83333
+```
 
+Agora o grafo V
 
+```
+Nós: nodes(G)
+
+Arestas:
+- A -> A: 1
+- A -> B: 1
+- A -> C: 1
+- B -> A: 1
+- B -> B: 1
+- B -> C: 1.083331666
+- C -> A: 1
+- C -> B: 0.9
+- C -> C: 1
+```
+
+Note como é possível precificar, em termos de 'A' essa conversão de 'B' pra 'C' e de 'C' pra 'B'.
+
+No caso:
+- existe um ganho de valor quando conversão 'B' pra 'C' é realizada de 8,3%
+- existe uma perda de valor quando conversão 'C' pra 'B' é realizada de -10%
+
+Podemos pegar o esse valor de cada aresta em V e simplesmente converter em perda ou ganha percentual. Ficaria:
+
+```
+Nós: nodes(G)
+
+Arestas:
+- A -> A: 0.0%
+- A -> B: 0.0%
+- A -> C: 0.0%
+- B -> A: 0.0%
+- B -> B: 0.0%
+- B -> C: 8.3332%
+- C -> A: 0.0%
+- C -> B: -10.0%
+- C -> C: 0.0%
+```
+
+Isso, em grafo, seria 
+
+![](figs/Screenshot%20from%202023-07-05%2010-55-30.png)
+![](figs/Screenshot%20from%202023-07-05%2010-56-05.png)
 
 ### Objetivo do sistema
 
