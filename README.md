@@ -109,8 +109,8 @@ Arestas:
 
 Vamos desenhar pra ficar super óbvio o que está acontecendo aqui.
 
-| Rota             | Grafo                                                   |
-| ---------------- | ------------------------------------------------------- |
+| Rota             | Grafo                                                                                         |
+| ---------------- | --------------------------------------------------------------------------------------------- |
 | A -> C -> B -> A | <div style="width:200px"><img src="figs/Screenshot%20from%202023-07-05%2010-56-05.png"></div> |
 | A -> B -> C -> A | <div style="width:200px"><img src="figs/Screenshot%20from%202023-07-05%2011-00-07.png"></div> |
 
@@ -119,6 +119,16 @@ Com isso, a solução fica clara:
 2. Transforma todos os valores do grafo acima em seu negativo (`x := - x`, de forma que o ciclo negativo seja o ciclo lucrativo)
 3. Encontra o maior ciclo negativo para cada ativo em sua carteira pode fazer parte
 4. Realize as transações!
+
+Algumas considerações adicionais:
+- G deve ser um grafo conectado.
+- Cada aresta X -> Y é o preço P que se paga para comprar 1 unidade de Y usando X/Y unidades de X.
+- Logo a aresta implítica Y -> X, Y/X, é `1/P`.
+- A conversão entre 2 ativos é possível por que o grafo é conectado.
+- Se a conversão não está explicitamente mencionada:
+  - assumirmos que no referencial s do ativo t, que é conectado com ativos A, o valor de s é 1:1 
+  - portanto o peso da aresta s->t é `min(A1->s, A2->s, ..., An->s)`
+  - e o peso da aresta t->s é `1/peso(s->t)`
 
 ### Objetivo do sistema
 

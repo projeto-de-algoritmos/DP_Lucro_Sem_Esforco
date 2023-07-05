@@ -12,18 +12,13 @@ def print_v(v):
 
 
 node_to_node = [
-    [1, 2, 3],
-    [0.5, 1, 1.2],
-    [0.3333, 0.83333, 1],
+    [1, 2, 3, 3],
+    [0.5, 1, 1.2, 1.2],
+    [0.3333, 0.83333, 1, 1],
+    [0.3333, 0.83333, 1, 1],
 ]
 
-
-v = [10, 0, 0]
-convs = [
-    [10, 0, 2],
-    [None, 2, 1],
-    [None, 1, 0],
-]
+v = [10, 0, 0, 0]
 
 
 def conv(unit, ca, cb, n2n=node_to_node):
@@ -62,7 +57,7 @@ def get_new_graph(n2n, s=0):
             convs = [
                 [None, i, j],
             ]
-            ret = apply_convs([1, 1, 1], convs)
+            ret = apply_convs([1 for _ in range(sz)], convs)
             for k in range(len(n2n)):
                 if k == s:
                     continue
