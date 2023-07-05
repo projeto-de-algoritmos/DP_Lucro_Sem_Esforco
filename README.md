@@ -13,7 +13,7 @@ Objetivo é identificar qualquer ativo de mercado que está precificado muito ab
 
 ## Sobre 
 
-### Exemplo
+### Entendendo o problema
 
 Suponha que o mercado financeiro é um grafo onde cada ativo do mercado é um nó, e cada aresta direcional é o preço de uma transação entre 2 ativos
 
@@ -44,11 +44,13 @@ Ou seja, se analisarmos algum ciclo que começa e termina em algum nó sendo que
 
 Se o mercado fosse perfeitamente eficiente, nenhum conversão desse tipo por definição jamais resultaria em algum valor diferente de 1. Ou seja, são falhas de mercado.
 
-### Solução
+### Solucionando o problema
 
 Suponha que G é um grafo onde cada ativo do mercado é um nó, e cada aresta direcional é o preço de uma transação entre 2 ativos.
 
-Imaginemos uma árvore V a partir de um grafo G, onde cada aresta de V representa a quantidades de 'A' que seria possível ser convertida a partir de 1 unidade do ativo atual (claramente, o nó do ativo A resultaria em 1 unidade do próprio A).
+Se nós conseguirmos achar qualquer caminho em G onde nós partimos de 'A', realizamos sucessivas compras terminando em 'A' de forma que o resultado final seja maior que 1 (compramos X > 1 unidades de A a partir de 1 única unidade), temos um ciclo.
+
+Note como o valor X não faz diferença, desde que exista algum caminho mais rentável que 1 A.
 
 Para fica claro, o grafo G no exemplo mostrado acima seria:
 
@@ -61,74 +63,57 @@ Nós:
 Arestas:
 - A - B: 2    
 - A - C: 3    
-- B - C: 1.2    
+- B - C: 1.25  
 - B - A: 0.5
 - C - A: 0.3333
-- C - B: 0.83333
+- C - B: 0.8
 ```
 
-Agora o grafo V
+Vamos explorar *parcialmente* esse grafo cíclico começando pelo A e terminando em A.
+
+Um algoritmo imaginado será usado à seguir. 
+
+É parecido com um dijkstra, mas o valor intermediário de qualquer passo é irrelevante sem se saber qual é o valor final de A que é possível se comprar. 
+
+Portanto, não temos como saber qual é o melhor caminho sem explorar os subcaminhos, mas nenhum subcaminho é ignorável, algo que um simples dijsktra não poderia fazer:
 
 ```
-Nós: nodes(G)
-
-Arestas:
-- A -> A: 1
-- A -> B: 1
-- A -> C: 1
-- B -> A: 1
-- B -> B: 1
-- B -> C: 1.083331666
-- C -> A: 1
-- C -> B: 0.9
-- C -> C: 1
+[COMPRA]  com 1 A compramos 0.5 B
+[COMPRA]  com 1 A compramos 0.333 C
+[COMPRA]  com 0.333 C compramos 0.41625 B
+[DISPUTA] a quantidade de B é max(0.5, 0.41625) = 0.5
+[COMPRA]  com 0.5 B compramos 0.4 C
+[DISPUTA] a quantidade de C é max(0.333, 0.4) = 0.4
+[COMPRA]  com 0.4 C compramos 1.2 A
 ```
 
-Note como é possível precificar, em termos de 'A' essa conversão de 'B' pra 'C' e de 'C' pra 'B'.
+Note como conseguimos comprar 1.2 A a partir de 1 A! 20% de **lucro, sem nenhum esforço**!
 
-No caso:
-- existe um ganho de valor quando conversão 'B' pra 'C' é realizada de 8,3%
-- existe uma perda de valor quando conversão 'C' pra 'B' é realizada de -10%
+Além disso, toda vez que ocorre uma **disputa** no valor de algo, por exemplo no caso de B ou C, temos um erro no mercado que faz a paridade daquele ativo contigo mesmo ser diferente de 1:1. Se for possível comprar e vender aquele ativo em termos de A, é possível lucrar com ele.
 
-Podemos pegar o esse valor de cada aresta em V e simplesmente converter em perda ou ganha percentual. Ficaria:
+A **estratégia ideal** seria realizar o **infinitas compras** desse ciclo.
 
-```
-Nós: nodes(G)
+### Tornando o problema mais interessante
 
-Arestas:
-- A -> A: 0.0%
-- A -> B: 0.0%
-- A -> C: 0.0%
-- B -> A: 0.0%
-- B -> B: 0.0%
-- B -> C: 8.3332%
-- C -> A: 0.0%
-- C -> B: -10.0%
-- C -> C: 0.0%
-```
+Suponha agora que seja possível apenas **comprar ou vender** algum ativo **apenas uma única vez**, como se o estoque tivesse sido interamente comprado na loja. 
 
-Vamos desenhar pra ficar super óbvio o que está acontecendo aqui.
+Como **nenhum nó pode ser revisitado**, o ciclo não pode ter infinitos passos.
 
-| Rota             | Grafo                                                                                         |
-| ---------------- | --------------------------------------------------------------------------------------------- |
-| A -> C -> B -> A | <div style="width:200px"><img src="figs/Screenshot%20from%202023-07-05%2010-56-05.png"></div> |
-| A -> B -> C -> A | <div style="width:200px"><img src="figs/Screenshot%20from%202023-07-05%2011-00-07.png"></div> |
+Portanto, apenas uma solução, a melhor, deveria ser encontrada ao final desse processo.
 
-Com isso, a solução fica clara:
-1. Calcular o grafo V
-2. Transforma todos os valores do grafo acima em seu negativo (`x := - x`, de forma que o ciclo negativo seja o ciclo lucrativo)
-3. Encontra o maior ciclo negativo para cada ativo em sua carteira pode fazer parte
-4. Realize as transações!
+Isso seria equivalente a um grafo direcionado: se você está no B, a subárvore dele não pode conter outro B. A única subárvore que pode conter outra instância de se própria é o A, que também é a raíz da árvore.
 
-Algumas considerações adicionais:
-- G deve ser um grafo conectado.
-- Cada aresta X -> Y é o preço P que se paga para comprar 1 unidade de Y usando X/Y unidades de X.
-- Logo a aresta implítica Y -> X, Y/X, é `1/P`.
-- A conversão entre 2 ativos é possível por que o grafo é conectado.
-- Se a conversão não está explicitamente mencionada:
-  - assumirmos que no referencial s do ativo t, que é conectado com ativos A, o valor de s é 1:1 
-  - portanto o peso da aresta s->t é `min(A1->s, A2->s, ..., An->s)`
-  - e o peso da aresta t->s é `1/peso(s->t)`
+Quando uma **disputa é encontrada**, estamos escolhendo qual ramo da árvore vamos **explorar**, e qual **abandonar**.
+
+Se computarmos dessa forma, é como se pudessemos **comparar o resultado de subproblemas** de múltiplas subárvores simultâneamente, tornando o resultado de outras subárvores inferiores em redundantes. 
+
+Resumo rápido do que temos:
+- Múltiplos problemas sobrepostos
+- Reutilização de resultados
+- Substruturas ótimas
+- Evita redundância
+
+Isso... é programação dinâmica!
 
 ### Objetivo do sistema
 
