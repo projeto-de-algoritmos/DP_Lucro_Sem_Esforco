@@ -120,13 +120,12 @@ Arestas:
 - C -> C: 0.0%
 ```
 
-A -> C -> B -> A
+Vamos desenhar pra ficar super óbvio o que está acontecendo aqui.
 
-![](figs/Screenshot%20from%202023-07-05%2010-56-05.png)
-
-A -> B -> C -> A
-
-![](figs/Screenshot%20from%202023-07-05%2011-00-07.png)
+| Rota             | Grafo                                                   |
+| ---------------- | ------------------------------------------------------- |
+| A -> C -> B -> A | ![](figs/Screenshot%20from%202023-07-05%2010-56-05.png) |
+| A -> B -> C -> A | ![](figs/Screenshot%20from%202023-07-05%2011-00-07.png) |
 
 ### Objetivo do sistema
 
