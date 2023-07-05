@@ -121,9 +121,11 @@ Arestas:
 ```
 
 A -> C -> B -> A
+
 ![](figs/Screenshot%20from%202023-07-05%2010-56-05.png)
 
 A -> B -> C -> A
+
 ![](figs/Screenshot%20from%202023-07-05%2011-00-07.png)
 
 ### Objetivo do sistema
