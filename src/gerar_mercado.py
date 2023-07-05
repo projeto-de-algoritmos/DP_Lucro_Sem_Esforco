@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import random
 import math
 
-from src.util import *
+from util import *
 
 load_dotenv()
 

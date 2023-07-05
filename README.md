@@ -13,6 +13,38 @@ Objetivo é identificar qualquer ativo de mercado que está precificado muito ab
 
 ## Sobre 
 
+### Exemplo
+
+Imagine que exista moedas A, B e C
+
+Você tem 10 unidades de A
+
+Quantos 'A's você precisa pra comprar um 'B' é representado com A/B
+
+A/B  =  2    (B/A = 0.5)
+A/C  =  3    (C/A = 0.3333)
+B/C  =  1.2  (C/B = 0.8333)
+
+Podemos encontrar um ciclo interessante:
+1. Se pegar 10 A -> 3.33 C -> 4 B -> 8.0 A 
+2. Se pegar 10 A -> 5 B -> 4.16 C -> 12.5 A
+
+Ou seja, você pode multiplicar a quantidade de 'A' incial em 25% se você pegar o caminho 2.
+
+Isso poderia ser encontrando analiticamente levando em conta que:
+ B/A   *  C/B   *   A/C    = 1.25 (> 1.0)
+(A->B)   (B->C)    (C->A)
+
+ C/A   *  B/C   *   A/B    = 0.80 (< 1.0)
+(A->C)   (C->B)    (B->A)
+
+Ou seja, se analisarmos algum ciclo que começa e termina em algum nó sendo que a fração final de transação é `> 1`, temos um "ciclo infinito" de dinheiro, no sentido de que seria vantajoso colocar a maior quantidade de recursos possíveis por esse ciclo.
+
+Se o mercado fosse perfeitamente eficiente, nenhum conversão desse tipo por definição jamais resultaria em algum valor diferente de 1. Ou seja, são falhas de mercado.
+
+
+**Vamos modelar esse fenômeno aqui, seguindo algumas regras**
+
 Assumimos que:
 - Mercado é um grafo onde cada ativo do mercado é um nó, e cada aresta direcional é o preço de uma transação entre 2 ativos. 
 - Não existe custo de transação 
@@ -28,6 +60,29 @@ Onde estaria o lucro então?
 - Se ativo A está barato demais que ativo B se tentasse comprar com uma cadeia de compras `A -> X -> Y -> ... -> Z -> B`, compraríamos ativo B por um preço mais baixo do que custa (será consertado).
   
 Se aplicarmos uma `detecção de ciclos negativos`, podemos encontrar um exemplo disso.
+
+### Solução
+
+Suponha que G é um grafo onde cada ativo do mercado é um nó, e cada aresta direcional é o preço de uma transação entre 2 ativos.
+
+Imaginemos uma árvore V a partir de um grafo G, onde cada aresta de V representa a quantidades de 'A' que seria possível conver
+
+Para fica claro, o grafo G no exemplo mostrado acima seria:
+
+Nós: 
+- A
+- B
+- C
+
+Arestas:
+- A - B: 2    
+- A - C: 3    
+- B - C: 1.2    
+- B - A: 0.5
+- C - A: 0.3333
+- C - B: 0.83333
+
+
 
 ### Objetivo do sistema
 
