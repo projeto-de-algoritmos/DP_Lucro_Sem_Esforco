@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lucro sem esforço!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+    <script>
+      function draw(req) {
+        const nodes = [
+          { id: 1, label: "Node 1" },
+          { id: 2, label: "Node 2" },
+          { id: 3, label: "Node 3" },
+          { id: 4, label: "Node 4" },
+        ];
+
+        const edges = [
+          { from: 1, to: 2 },
+          { from: 1, to: 3 },
+          { from: 2, to: 4 },
+        ];
+
+        const data = {
+          nodes: nodes,
+          edges: edges,
+        };
+
+        const options = {};
+
+        const container = document.getElementById("network");
+        const network = new vis.Network(container, data, options);
+      }
+
+      function f() {
+        console.log("call");
+        fetch({
+          url: "localhost:8000/new",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Process the received data
+            console.log(data);
+            draw(data);
+          })
+          .catch((error) => {
+            // Handle any errors
+            console.error("Error:", error);
+          });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        f();
+      });
+    </script>
+  </head>
+  <body>
+    <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+    <button onclick="f()" style="width: 100px; height: 30px; font-size: large">NOVO!</button>
+    <div id="network" style="width: 900px; height: 900px"></div>
+  </body>
+</html>

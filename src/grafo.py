@@ -17,7 +17,7 @@ def get_indx(i):
 
 
 def calc2(n):
-    global g, s, precos, estado, pai, contafinal
+    global g, s, precos, estado, pai, contafinal, dbg_should_print
     old_estado = estado[n]
 
     if estado[n] == EXPLORADO:
@@ -79,7 +79,7 @@ def calc2(n):
 
 
 def call_calc2(vg, vs):
-    global g, s, precos, estado, pai
+    global g, s, precos, estado, pai, dbg_should_print
 
     g = vg
     s = vs
@@ -114,8 +114,9 @@ def add_arestas(g, size=None, max_size=None):
     return g
 
 
-def calcular_caminho_lucrativo(i_g=None, i_s=None):
-    global g, s, precos, estado, pai
+def calcular_caminho_lucrativo(i_g=None, i_s=None, should_print=True):
+    global g, s, precos, estado, pai, dbg_should_print
+    dbg_should_print = should_print
     if i_g is None:
         g = [
             [("B", 0.5)],
@@ -131,17 +132,19 @@ def calcular_caminho_lucrativo(i_g=None, i_s=None):
     else:
         s = i_s
 
-    for e in range(len(g)):
-        for v in range(len(g[e])):
-            g[e][v] = (makeindx(g[e][v][0]), 1.0 / g[e][v][1])
+    # for e in range(len(g)):
+    #     for v in range(len(g[e])):
+    #         g[e][v] = (makeindx(g[e][v][0]), 1.0 / g[e][v][1])
 
     ret, sol = call_calc2(g, s)
     vsol = [get_indx(i) for i in sol]
 
-    print("fator final: ", ret[s])
-    print("solucao: ", vsol)
+    if should_print:
+        print("fator final: ", ret[s])
+        print("solucao: ", vsol)
 
     return ret[s], sol
 
 
-calcular_caminho_lucrativo()
+if __name__ == "__main__":
+    calcular_caminho_lucrativo()
