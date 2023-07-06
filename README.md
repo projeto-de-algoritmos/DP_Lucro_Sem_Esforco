@@ -23,13 +23,9 @@ Vamos tentar observar ele de uma forma bonita nesse projeto.
 
 ### Entendendo o problema
 
-Suponha que o mercado financeiro é um grafo onde cada ativo do mercado é um nó, e cada aresta direcional é o preço de uma transação entre 2 ativos
+Suponha que o **mercado financeiro é um grafo** onde cada ativo do mercado é um nó, e cada aresta direcional é o preço de uma transação entre 2 ativos
 
-Imagine que existam moedas (ativos) A, B e C
-
-Você tem 10 unidades de A
-
-Quantos 'A's você precisa pra comprar um 'B' é representado com A/B
+Imagine que existam moedas (ativos) A, B e C. Você tem 10 unidades de A. Quantos 'A's você precisa pra comprar um 'B' é representado como A/B.
 
 A/B  =  2    (B/A = 0.5)
 A/C  =  3    (C/A = 0.3333)
@@ -43,12 +39,9 @@ Ou seja, você pode multiplicar a quantidade de 'A' incial em 25% se você pegar
 
 Isso poderia ser encontrando analiticamente levando em conta que:
  B/A   *  C/B   *   A/C    = 1.25 (> 1.0)
-(A->B)   (B->C)    (C->A)
-
  C/A   *  B/C   *   A/B    = 0.80 (< 1.0)
-(A->C)   (C->B)    (B->A)
 
-Ou seja, se analisarmos algum ciclo que começa e termina em algum nó sendo que a fração final de transação é `> 1`, temos um "ciclo infinito" de dinheiro, no sentido de que seria vantajoso colocar a maior quantidade de recursos possíveis por esse ciclo.
+Ou seja, se analisarmos algum ciclo que começa e termina em algum nó sendo que a fração final de transação é `> 1`, temos um **"ciclo infinito" de dinheiro**, no sentido de que seria vantajoso colocar a maior quantidade de recursos possíveis por esse ciclo.
 
 Se o mercado fosse perfeitamente eficiente, nenhum conversão desse tipo por definição jamais resultaria em algum valor diferente de 1. Ou seja, são falhas de mercado.
 
@@ -133,7 +126,9 @@ Assumimos que:
   - pra simplificar, senão o mercado não teria ciclos negativos
   - se tivesse, alguém iria perceber e "abusar" deste o mais rápido possível
   - e os vendedores de cada um dos ativos no ciclo negativo iria aumentar o preço de venda para lucrar com o ciclo, de forma a destruir o próprio ciclo
-- Todo ativo vale 1 de si mesmo.
+- Todo ativo vale 1 de si mesmo
+
+O algoritmo se encontra no arquivo `src/grafo.py`.
 
 ## Screenshots
 
