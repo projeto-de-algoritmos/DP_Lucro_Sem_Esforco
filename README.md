@@ -125,6 +125,7 @@ Assumimos que:
   - pra simplificar, senão o mercado não teria ciclos negativos
   - se tivesse, alguém iria perceber e "abusar" deste o mais rápido possível
   - e os vendedores de cada um dos ativos no ciclo negativo iria aumentar o preço de venda para lucrar com o ciclo, de forma a destruir o próprio ciclo
+- Todo ativo vale 1 de si mesmo.
 
 ## Screenshots
 
