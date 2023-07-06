@@ -125,24 +125,22 @@ Assumimos que:
   - pra simplificar, senão o mercado não teria ciclos negativos
   - se tivesse, alguém iria perceber e "abusar" deste o mais rápido possível
   - e os vendedores de cada um dos ativos no ciclo negativo iria aumentar o preço de venda para lucrar com o ciclo, de forma a destruir o próprio ciclo
-  
-Programa:
-1. Se houverem dados baixados, pule o próximo passo
-2. Baixa dados de ativos por APIs públicas pela taxa de conversão entre eles
-   - Exemplo:
-     - $ 50,00 (dólares) por 1 barril de petróleo
-     - 0,03 Bitcoin por 1 ação de empresa X
-     - 6 ações da empresa X por 1 barril de petróleo
-     - $ 120.000,00 (dólares) por ₿ 1 (bitcoin).
-3. Atribua valor incial pra carteira (eg. $ 50 dólares)
-4. Mercado virtual com preços virtuais é atualizado
-5. Monta ou atualiza grafo onde cada nó é um ativo, e cada aresta direcionada é o preço de compra de um ativo custando X de outro ativo
-6. Rodar um algoritmo detector de ciclos negativos, todo os novos ciclos são guardados
-7. Completar um ciclo inteiro para cada ativo que possuir na carteira, usando o ciclo mais lucrativo. **Apenas um ciclo por ativo**.
-8. Repetir passo 4
-9. <div style="width:100px"><img src="figs/problem.jpg"></div>
 
 ## Screenshots
+
+Um grafo gerado pelo app 
+
+![](figs/Screenshot%20from%202023-07-05%2022-04-38.png)
+
+Outro grafo gerado pelo app 
+
+![](figs/Screenshot%20from%202023-07-05%2022-05-20.png)
+
+
+Output local 
+
+![](figs/Screenshot%20from%202023-07-05%2022-05-58.png)
+
 
 ## Vídeo
 
@@ -156,6 +154,14 @@ Sem essas chaves, não dá pra puxar dados, mas eles já são carregados por pad
 
 ## Uso 
 
+Para rodar localmente:
+```
+python app.py local
+```
 
-## Outros
+Para rodar no browser, com visualização:
+```
+python app.py
+```
+
 

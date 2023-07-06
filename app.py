@@ -1,4 +1,5 @@
 import threading
+import sys
 import os
 import random
 from os.path import exists
@@ -105,7 +106,7 @@ def make_grafo_from_mercado(mercado: Mercado, max_size: int = None) -> Grafo:
 
     for m1 in std_moedas:
         for m2 in std_moedas:
-            if random_binario():
+            if random_binario() and random_binario():
                 v = random.random() * 2
                 grafo.add_edge(m1, m2, v)
                 grafo.add_edge(m2, m1, 1 / v)
@@ -121,7 +122,9 @@ def make_grafo_from_mercado(mercado: Mercado, max_size: int = None) -> Grafo:
             break
         grafo.add_node(nome)
 
-        qtd_moedas = random.randint(4, len(std_moedas) - 1)
+        max_moedas = len(std_moedas) - 1
+        max_moedas = 2
+        qtd_moedas = random.randint(2, max_moedas)
         moedas = random.choices(std_moedas, k=qtd_moedas)
 
         for moeda in moedas:
@@ -207,12 +210,17 @@ def make_grafo():
 
     g = grafo.as_2d_list()
 
-    print(*g, sep="\n")
+    # print(*g, sep="\n")
 
     lucro, sol = calcular_caminho_lucrativo(i_g=g, i_s=0, should_print=False)
     sol = [grafo.get_node_name(i) for i in sol]
 
-    print(lucro, sol)
+    # print(lucro, sol)
+
+    g = {
+        "labels": [grafo.get_node_name(i) for i in range(len(g))],
+        "grafo": g,
+    }
 
     return lucro, sol, g
 
@@ -221,6 +229,7 @@ class MyRequestHandler(http.server.BaseHTTPRequestHandler):
     def _set_response(self, content_type="text/plain", status_code=200):
         self.send_response(status_code)
         self.send_header("Content-type", content_type)
+        self._set_cors_headers()
         self.end_headers()
 
     def _set_cors_headers(self):
@@ -228,21 +237,60 @@ class MyRequestHandler(http.server.BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
 
+    def do_OPTIONS(self):
+        print("ha!")
+        self._set_response()
+
     def do_GET(self):
         if self.path == "/new":
+            print("hey!")
             self._set_response("application/json")
             lucro, sol, g = make_grafo()
-            data = {"lucro": lucro, "sol": sol, "g": g}
+            data = {
+                "lucro": lucro,
+                "sol": sol,
+                "g": g,
+            }
             response = json.dumps(data)
             self.wfile.write(response.encode("utf-8"))
         else:
-            self._set_response()
-            self.wfile.write(b"Hello, world!")
+            print("hoy!", self.path)
+            self._set_response("text/html")
+            f = bytes(read_file("index.html").encode("utf-8"))
+            self.wfile.write(f)
 
 
 def main():
     init()
 
+    if len(sys.argv) > 1 and sys.argv[1] == "local":
+        lucro, sol, g = make_grafo()
+
+        print("grafo aleatorio gerado!\n")
+        print("numero de nos:", len(g))
+        print("numero de arestas:", sum(len(v) for v in g))
+        print("")
+        print("lucro calculado:", lucro)
+        print("solucao encontrada:", sol)
+
+        write_file(
+            "grafo.json",
+            json.dumps(
+                {
+                    "fator_lucro_por_ciclo": lucro,
+                    "solucao": sol,
+                    "comentario": "CADA COLUNA NA LISTA ABAIXO EH UM NO, CADA ITEM NA COLUNA EH UMA ARESTA COM O NO ALVO E PESO!!",
+                    "grafo": g,
+                },
+                indent=4,
+            ),
+        )
+
+        print("\narquivo grafo.json foi salvo com todos os dados")
+        print("rode o app com o comando 'python3 app.py' pra visualizar no navegador")
+        exit(0)
+
+    print("acesse: https://localhost:8000")
     server_address = ("0.0.0.0", 8000)
     httpd = http.server.HTTPServer(server_address, MyRequestHandler)
     httpd.serve_forever()

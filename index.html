@@ -13,39 +13,77 @@
 
     <script>
       function draw(req) {
-        const nodes = [
-          { id: 1, label: "Node 1" },
-          { id: 2, label: "Node 2" },
-          { id: 3, label: "Node 3" },
-          { id: 4, label: "Node 4" },
+        console.log(req);
+        const lucro = document.getElementById("lucro");
+        lucro.innerHTML = "<br>LUCRO = " + req.lucro;
+
+        const labels = req.g.labels;
+        const grafo = req.g.grafo;
+        const solucao = req.sol;
+
+        let nodes = [
+          //   { id: 1, label: "Node 1" },
+          //   { id: 2, label: "Node 2" },
+          //   { id: 3, label: "Node 3" },
+          //   { id: 4, label: "Node 4" },
         ];
+        for (let i = 0; i < labels.length; i++) {
+          nodes.push({ id: i + 1, label: labels[i] });
+          if (i == 0) {
+            nodes[i].color = "#d00";
+          }
+        }
 
         const edges = [
-          { from: 1, to: 2 },
-          { from: 1, to: 3 },
-          { from: 2, to: 4 },
+          //   { from: 1, to: 2 },
+          //   { from: 1, to: 3 },
+          //   { from: 2, to: 4 },
         ];
+        for (let i = 0; i < grafo.length; i++) {
+          for (let j = 0; j < grafo[i].length; j++) {
+            edges.push({
+              from: i + 1,
+              to: grafo[i][j][0] + 1,
+              value: grafo[i][j][1],
+              arrows: "to",
+            });
+
+            for (let k = 1; k < solucao.length; k++) {
+              if (solucao[k] == labels[i] && solucao[k - 1] == labels[grafo[i][j][0]]) {
+                edges[edges.length - 1].color = "#0f0";
+              }
+            }
+          }
+        }
 
         const data = {
           nodes: nodes,
           edges: edges,
         };
 
-        const options = {};
+        const options = {
+          nodes: {
+            font: {
+              bold: {
+                color: "black", // Color for bold text
+              },
+            },
+          },
+        };
 
         const container = document.getElementById("network");
         const network = new vis.Network(container, data, options);
       }
 
       function f() {
-        console.log("call");
-        fetch({
-          url: "localhost:8000/new",
-        })
-          .then((response) => response.json())
+        const url = new URL("http://localhost:8000/new");
+        console.log("call ", url);
+        fetch(url)
+          .then((response) => {
+            return response.json();
+          })
           .then((data) => {
             // Process the received data
-            console.log(data);
             draw(data);
           })
           .catch((error) => {
@@ -60,8 +98,16 @@
     </script>
   </head>
   <body>
-    <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
-    <button onclick="f()" style="width: 100px; height: 30px; font-size: large">NOVO!</button>
-    <div id="network" style="width: 900px; height: 900px"></div>
+    <div style="text-align: center; font-size: x-large">
+      -------------->
+      <button onclick="f()" style="width: 100px; height: 30px; font-size: large">NOVO!</button>
+      <----------------
+
+      <div id="lucro"></div>
+
+      <div id="network" style="width: 900px; height: 80vh"></div>
+
+      <div>VERDE = SOLUCAO | VERMELHO = INCIO E FIM | GROSSURA DA ARESTA = PESO</div>
+    </div>
   </body>
 </html>
