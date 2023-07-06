@@ -13,6 +13,14 @@ Objetivo é identificar qualquer ativo de mercado que está precificado muito ab
 
 ## Sobre 
 
+Aprecie essa imagem:
+
+![](figs/Screenshot%20from%202023-07-05%2022-29-57.png)
+
+O mercado financeiro pode ser muito feio ou muito bonito, dependendo de como você observa ele.
+
+Vamos tentar observar ele de uma forma bonita nesse projeto.
+
 ### Entendendo o problema
 
 Suponha que o mercado financeiro é um grafo onde cada ativo do mercado é um nó, e cada aresta direcional é o preço de uma transação entre 2 ativos
@@ -132,7 +140,7 @@ Assumimos que:
 
 ### Um grafo aleatório com ciclo de lucro gerado pelo app
 
-![](figs/Screenshot%20from%202023-07-05%2022-20-28.png)
+![](figs/Screenshot%20from%202023-07-05%2022-27-28.png)
 
 
 Interpretação:
@@ -143,7 +151,7 @@ Interpretação:
 
 ### Outro grafo aleatório com ciclo de lucro gerado pelo app 
 
-![](figs/Screenshot%20from%202023-07-05%2022-21-12.png)
+![](figs/Screenshot%20from%202023-07-05%2022-27-51.png)
 
 ### Output local 
 
