@@ -128,16 +128,23 @@ Assumimos que:
 
 ## Screenshots
 
-Um grafo gerado pelo app 
 
-![](figs/Screenshot%20from%202023-07-05%2022-04-38.png)
+### Um grafo aleatório com ciclo de lucro gerado pelo app
 
-Outro grafo gerado pelo app 
-
-![](figs/Screenshot%20from%202023-07-05%2022-05-20.png)
+![](figs/Screenshot%20from%202023-07-05%2022-20-28.png)
 
 
-Output local 
+Interpretação:
+- COR VERMELHA REPRESENTA NÓ INICIAL
+- COR VERDE REPRESENTA CAMINHO DE LUCRO OTIMO
+- O CUSTO DE SE COMPRAR 1 UNIDADE DO ATIVO QUE RECEBE A SETA É SEU PESO, A "GORDURA" DA ARESTA
+- Os simbolos a seguir são as moedas USD = Dolar, BTC = Bitcoin, EUR = Euro...
+
+### Outro grafo aleatório com ciclo de lucro gerado pelo app 
+
+![](figs/Screenshot%20from%202023-07-05%2022-21-12.png)
+
+### Output local 
 
 ![](figs/Screenshot%20from%202023-07-05%2022-05-58.png)
 
@@ -163,5 +170,6 @@ Para rodar no browser, com visualização:
 ```
 python app.py
 ```
+E então acesse [http://localhost:8000](http://localhost:8000)
 
 

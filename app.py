@@ -290,7 +290,7 @@ def main():
         print("rode o app com o comando 'python3 app.py' pra visualizar no navegador")
         exit(0)
 
-    print("acesse: https://localhost:8000")
+    print("acesse: http://localhost:8000")
     server_address = ("0.0.0.0", 8000)
     httpd = http.server.HTTPServer(server_address, MyRequestHandler)
     httpd.serve_forever()
