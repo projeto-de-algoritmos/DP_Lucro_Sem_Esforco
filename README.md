@@ -155,7 +155,7 @@ Interpretação:
 
 ## Vídeo
 
-![](video.mp4)
+https://github.com/projeto-de-algoritmos/DP_Lucro_Sem_Esforco/blob/master/video.mp4
 
 ## Instalação 
 **Linguagem**: Python<br>
